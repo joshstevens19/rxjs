@@ -1,14 +1,14 @@
+import { config } from './config';
+import { iif } from './observable/iif';
+import { throwError } from './observable/throwError';
 import { Operator } from './Operator';
 import { Subscriber } from './Subscriber';
 import { Subscription } from './Subscription';
-import { TeardownLogic, OperatorFunction, PartialObserver, Subscribable } from './types';
-import { canReportError } from './util/canReportError';
-import { toSubscriber } from './util/toSubscriber';
-import { iif } from './observable/iif';
-import { throwError } from './observable/throwError';
 import { observable as Symbol_observable } from './symbol/observable';
+import { OperatorFunction, PartialObserver, Subscribable, TeardownLogic } from './types';
+import { canReportError } from './util/canReportError';
 import { pipeFromArray } from './util/pipe';
-import { config } from './config';
+import { toSubscriber } from './util/toSubscriber';
 
 /**
  * A representation of any set of values over any amount of time. This is the most basic building block
@@ -71,6 +71,7 @@ export class Observable<T> implements Subscribable<T> {
   }
 
   subscribe(observer?: PartialObserver<T>): Subscription;
+  subscribe(observerOrNext?: PartialObserver<T> | ((value: T) => void), error?: (error: any) => void, complete?: () => void): Subscription
   /** @deprecated Use an observer instead of a complete callback */
   subscribe(next: null | undefined, error: null | undefined, complete: () => void): Subscription;
   /** @deprecated Use an observer instead of an error callback */
